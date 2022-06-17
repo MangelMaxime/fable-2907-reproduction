@@ -1,4 +1,4 @@
-# A Fable 3 template on Gitpod
+# Reproduction for https://github.com/fable-compiler/Fable/issues/2907
 
 This is a [Fable](https://fable.io/) template configured for ephemeral development environments on [Gitpod](https://www.gitpod.io/).
 
