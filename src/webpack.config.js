@@ -1,7 +1,7 @@
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import Visualizer from 'webpack-visualizer-plugin2'
-
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 //...
 
@@ -26,15 +26,28 @@ export default (_env, options) => {
         // to prevent browser caching if code changes
         output: {
             path: resolve("./webpack-dist"),
-            filename: "app.js"
+            filename: "[name].js"
         },
+        optimization: {
+            splitChunks: {
+              cacheGroups: {
+                commons: {
+                  test: /[\\/]node_modules[\\/]/,
+                  name: 'vendors',
+                  chunks: 'all',
+                },
+              },
+            },
+          },
+        mode: isDevelopment ? "development" : "production",
         devtool: isDevelopment ? 'eval-source-map' : false,
         watchOptions: {
             ignored: /node_modules/,
         },
         plugins:
             [
-                new Visualizer()
+                new BundleAnalyzerPlugin()
+                // new Visualizer()
             ].filter(Boolean),
         // Configuration for webpack-dev-server
         devServer: {
