@@ -1,5 +1,6 @@
 module Main
 
+open System
 open Feliz
 open Browser.Dom
 open Fable.Core.JsInterop
@@ -11,8 +12,15 @@ emitJsStatement () "import React from \"react\""
 [<ReactComponent>]
 let private Component () =
     let isLeftPanelVisible, setLeftPanelVisibility = React.useState true
+    let time, setTime = React.useState DateTime.Now
 
-    Html.div "Hello"
+    React.useEffectOnce(fun () ->
+        Fable.Core.JS.setInterval (fun () ->
+            setTime DateTime.Now
+        ) 1000 |> ignore
+    )
+
+    Html.div $"""Time is {time.ToString("HH:mm:ss")}"""
 
 ReactDOM.render(
     Component ()
